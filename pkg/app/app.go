@@ -230,9 +230,15 @@ func CreateApp() App {
 	*/
 	sar := &authzv1.SubjectAccessReview{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: "asb-sar-review",
+		//Name: "asb-sar-review",
 		},
-		Spec: authzv1.SubjectAccessReviewSpec{}, // need to fill this out
+		Spec: authzv1.SubjectAccessReviewSpec{
+			NonResourceAttributes: &authzv1.NonResourceAttributes{
+				Path: "/v2/catalog",
+				Verb: "GET",
+			},
+			User: "dev",
+		}, // need to fill this out
 	}
 	dasar, sarerr := authzcli.SubjectAccessReviews().Create(sar)
 	if sarerr != nil {
